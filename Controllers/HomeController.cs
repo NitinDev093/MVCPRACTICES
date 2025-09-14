@@ -367,6 +367,8 @@ namespace MVCPRACTICES.Controllers
             switch (TemplateName) {
                 case "EmployeeTemplate":
                     columns = BulkUploadColumns.Employee;
+                    //utility name ka ek folder bananya gaya hai 
+                    //usme hum sirf column ko as a list return kar rahe hai.
                     break;
                 case "StudentTemplate":
                     columns = BulkUploadColumns.Employee1;
