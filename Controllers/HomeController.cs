@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
 using MVCPRACTICES.Models;
+using MVCPRACTICES.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,11 @@ using System.Web.UI.WebControls;
 
 namespace MVCPRACTICES.Controllers
 {
+    //this is home controller
     public class HomeController : Controller
     {
+        public readonly string Name ="Manish";
+
         string connectionstring = ConfigurationManager.ConnectionStrings["my_connection"].ConnectionString;
         public ActionResult Index()
         {
@@ -326,7 +330,7 @@ namespace MVCPRACTICES.Controllers
         }
     }
 
-       //structure for bulk upload
+       //structure for bulk upload template
        public ActionResult ExportStudentTemplate()
        {
             // Step 1: Create DataTable structure
@@ -355,7 +359,69 @@ namespace MVCPRACTICES.Controllers
                 }
            }
        }
-        //Next Action Method for bulk uploading
+        //Dynamic Method for bulk upload templates
+        public ActionResult ExportStudentTemplateDynamic(string TemplateName)
+        {
+
+            List<string> columns = new List<string>();
+            switch (TemplateName) {
+                case "EmployeeTemplate":
+                    columns = BulkUploadColumns.Employee;
+                    break;
+                case "StudentTemplate":
+                    columns = BulkUploadColumns.Employee1;
+                    break;
+            }
+            // Step 2: Create Excel workbook and worksheet
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                var ws = wb.Worksheets.Add("Sheet1");
+                // Step 3: Create header row manually using loop
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    var cell = ws.Cell(1, i+1); // Row 1, Column starts from 1
+                    cell.Value = columns[i];
+
+                    // Style header cell
+                    cell.Style.Font.Bold = true;
+                    cell.Style.Fill.BackgroundColor = XLColor.LightBlue;
+                    cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    cell.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+                    cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                }
+
+                // Step 4: Enable AutoFilter for header row
+               //ws.Range(1, 1, 1, Employee.Count).SetAutoFilter();
+
+                // Step 5: Optional - Add a sample data row dynamically
+        //        var sampleData = new List<string>
+        //{
+        //    "1", "John Doe", "25", "B.Sc", "Male", "India", "Maharashtra"
+        //};
+
+        //        for (int i = 0; i < sampleData.Count; i++)
+        //        {
+        //            ws.Cell(2, i + 1).Value = sampleData[i];
+        //        }
+
+                // Step 6: Adjust column width automatically
+                ws.Columns().AdjustToContents();
+                //for dynamic file name
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                string fileName = $"{TemplateName}_{timestamp}.xlsx";
+                // Step 7: Return Excel file to user
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(
+                        stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName
+                    );
+                }
+            }
+        }
+
 
 
     }
