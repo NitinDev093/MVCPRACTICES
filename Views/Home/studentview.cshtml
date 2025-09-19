@@ -221,7 +221,7 @@
         //bulk upload templete
         $("#btnDownloadTemplate").click(function () {
             // Direct file download without full page reload
-            window.location.href = "/Home/ExportStudentTemplateDynamic?TemplateName=StudentTemplate";
+            window.location.href = "/Home/ExportStudentTemplateDynamic?TemplateName=EmployeeTemplate";
         });
 
 
@@ -349,10 +349,7 @@
             beforeSend: function () {
                 showloader();  // Loader show karega
             },
-
             success: function (response) {
-                
-
                 if (response.success) {
                     // ✅ destroy old DataTable if already initialized
                     if ($.fn.DataTable.isDataTable("#listonload")) {

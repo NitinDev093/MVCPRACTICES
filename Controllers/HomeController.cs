@@ -391,21 +391,7 @@ namespace MVCPRACTICES.Controllers
                     cell.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
                     cell.Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
                 }
-
-                // Step 4: Enable AutoFilter for header row
-               //ws.Range(1, 1, 1, Employee.Count).SetAutoFilter();
-
-                // Step 5: Optional - Add a sample data row dynamically
-        //        var sampleData = new List<string>
-        //{
-        //    "1", "John Doe", "25", "B.Sc", "Male", "India", "Maharashtra"
-        //};
-
-        //        for (int i = 0; i < sampleData.Count; i++)
-        //        {
-        //            ws.Cell(2, i + 1).Value = sampleData[i];
-        //        }
-
+        
                 // Step 6: Adjust column width automatically
                 ws.Columns().AdjustToContents();
                 //for dynamic file name

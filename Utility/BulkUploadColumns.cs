@@ -28,7 +28,6 @@ namespace MVCPRACTICES.Utility
                 "Address",
                 "City",
                 "State",
-                "ZipCode"
             };
 
     }
