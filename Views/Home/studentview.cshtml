@@ -208,7 +208,7 @@
         showstudentdata();
         countrymaster();
         updatecountrymaster();
-        
+
         //export to excel
         $(document).on("click", "#btnExport", function () {
             var studentname = $("#searchstudentname").val();
@@ -227,7 +227,7 @@
 
     });
 
-    
+
 
     //function for opne model 1st method
 
@@ -297,8 +297,8 @@
                 }
             ),
             contentType: "application/json; charset=utf-8",
-            
-            beforeSend: function (){
+
+            beforeSend: function () {
                 showloader();  // Loader show karega
             },
             success: function (response) {
@@ -367,21 +367,21 @@
                             { data: "countryname" },
                             { data: "statename" },
                             {
-                                data: "id",
                                 render: function (data, type, row) {
+                                    var studentid = row.id;
                                     return `<div class="d-flex gap-1">
-                                    <button class="btn btn-primary"
-                                        onclick="openupdatemodel('${row.id}',
+                                    <button class="btn btn-primary" onclick="openupdatemodel('${studentid}',
                                         '${row.studentname}','${row.studentage}',
-                                        '${row.studentqualification}','${row.studentgender}','${row.countryid}','${row.stateid}')">
+                                        '${row.studentqualification}','${row.studentgender}',
+                                        '${row.countryid}','${row.stateid}')">
                                         <i class="bi bi-pencil-square"></i>
 
                                     </button>
                                     <button class="btn btn-danger"
-                                        onclick="opendeletemodel('${row.id}')">
+                                        onclick="opendeletemodel('${studentid}')">
                                         <i class="bi bi-trash"></i>
                                     </button></div>`
-                                        ;
+                                        
                                 }
                             }
                         ],
